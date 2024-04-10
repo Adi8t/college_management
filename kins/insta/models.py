@@ -3,22 +3,34 @@ from django.contrib.auth.models import AbstractUser
 from .manager import MyUserManager
 
 
+from django.db import models
+from django.contrib.auth.models import AbstractUser
+from datetime import datetime
+
 class User(AbstractUser):
     email = models.EmailField(max_length=255, unique=True)
     date_of_birth = models.DateField(null=True, blank=True)
     joining_date = models.DateTimeField(auto_now_add=True)
+    subject = models.CharField(max_length=100,null=True)
+
     
-   
     ROLES = (
-        (1, 'Principal'),
-        (2, 'Teacher'),
-        (3, 'Student'),
+        ("principal", 'Principal'),
+        ('teacher', 'Teacher'),
+        ('student', 'Student'),
     )
+    department=(
+        ("EC","EC"),
+        ("IT","IT"),
+        ("COMPUTER","COMPUTER")
+    )
+
    
-    role = models.CharField(max_length=100, choices=ROLES,default=1)
+    role = models.CharField(max_length=100, choices=ROLES,default="student")
+    dept=models.CharField(max_length=100,choices=department,default="EC")
     is_staff = models.BooleanField(default=True)  
     is_active = models.BooleanField(default=True)
-    
+    is_superuser=models.BooleanField(default=True)
     
     objects = MyUserManager()
 
@@ -27,11 +39,13 @@ class User(AbstractUser):
     
     REQUIRED_FIELDS = []
 
-class course(models.Model):
-    name=models.CharField(max_length=100)
-    description=models.TextField(null=True)
-    creation_date=models.DateField(auto_now_add=True)
-    user=models.OneToOneField(User,on_delete=models.DO_NOTHING,null=True,blank=True)
+class SubjectDetails(models.Model):
+    subject_id = models.AutoField(primary_key=True,null=False)
+    subject = models.CharField(max_length=100)
+    subject_code = models.CharField(max_length=100)
+    teacher = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, related_name='subjects_taught')
+   
+    
 
-
-
+    class Meta:
+        db_table = 'subject_details'

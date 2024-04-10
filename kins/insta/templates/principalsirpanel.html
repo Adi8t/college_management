@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if user.role == "principle" %}Principal{% elif user.role == "teacher" %}Teacher{% else %}Student{% endif %} Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        div {
+            margin-bottom: 30px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .dashboard-section {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .dashboard-section h2 {
+            margin-bottom: 10px;
+        }
+        .dashboard-section ul {
+            margin-top: 10px;
+        }
+        .button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>{% if user.role == "principle" %}Principal{% elif user.role == "teacher" %}Teacher{% else %}Student{% endif %} Dashboard</h1>
+
+    {% if user.role == "principal" %}
+    
+    <div class="dashboard-section">
+        <h2>Teacher Data</h2>
+        <form action="{% url 'update_field' %}" method="GET">
+            <button type="submit" class="button">Teachers</button>
+        </form>
+    </div>
+    <div class="dashboard-section">
+        <h2>Student Data</h2>
+        <form action="{% url 'update_student_field' %}" method="GET">
+            <button type="submit" class="button">Students</button>
+        </form>
+    </div>
+    {% endif %}
+
+    {% if user.role == "teacher" %}
+    <div class="dashboard-section">
+        <h2>Subject Data</h2>
+         <form action="" method="GET">
+            <button type="submit" class="button">Subjects</button>
+        </form>
+    </div>
+    {% endif %}
+
+    {% if user.role == "student" %}
+    <div class="dashboard-section">
+        <h2> My Profile </h2>
+        <form action="" method="GET">
+            <button type="submit" class="button">My Profile</button>
+        </form>
+    </div>
+
+    {% endif %}
+    <div class="dashboard-section">
+        <form action="{% url 'logout' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="button" style="background-color: #dc3545;">Logout</button>
+        </form>
+    </div>
+</body>
+</html>

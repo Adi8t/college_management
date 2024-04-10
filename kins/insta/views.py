@@ -1,8 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .models import User
+from .models import *
 from django.contrib.auth import login, logout
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import authenticate, login 
 
 
 
@@ -19,7 +19,7 @@ def user_login(request):
         user = authenticate(request, email=email, password=password)
         print(user)
         if user is not None:
-            auth_login(request, user)
+            login(request, user)
             return redirect("dashboard")
         else:
             return render(request, 'login.html', {'error_message': 'Invalid username or password'})
@@ -33,7 +33,7 @@ def logout1(request):
 
 
 def dashboard(request):
-    return render(request, "hodsirpanel.html")
+    return render(request, "principalsirpanel.html")
 
 
 def signup(request):
@@ -44,7 +44,6 @@ def signup(request):
         cnfrm_password = request.POST.get("confirm_password")
         date_of_birth = request.POST.get("dateofbirth")
 
-        
         if User.objects.filter(email=email).exists():
             context = {
                 "error_message": "Email already exists."
@@ -66,3 +65,63 @@ def signup(request):
             return render(request, 'signup.html', context=context)
     else:
         return render(request, 'signup.html')
+
+def update_field(request):
+    Teachers_all = User.objects.all().values()
+    context = {
+        "teachers": Teachers_all
+    }
+    if Teachers_all != []:
+        return render(request, 'teacherdata.html', context=context)
+    else:
+        context = {
+            "error_message": "No Data available"
+        }
+        return render(request, 'teacherdata.html', context=context)
+
+
+def update_teacher(request):
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        if "update" in request.POST:
+            username = request.POST.get('username')
+            subject = request.POST.get('subject')
+            email=request.POST.get('email')
+            user = User.objects.get(id=id)
+            user.username = username
+            user.subject = subject
+            user.email=email
+            user.save()
+            return redirect('update_field')
+        elif "delete" in request.POST:
+            user = User.objects.get(id=id)
+            user.delete()
+            return redirect('update_field')
+        elif "add" in request.POST:
+            name = request.POST.get('name')
+            subject = request.POST.get('subject')
+            email = request.POST.get('email')
+            if User.objects.filter(email=email).exists():
+                return redirect('update_field')
+            else:
+                user, created = User.objects.get_or_create(username=name, email=email, subject=subject)
+                print(user)
+                if created:
+                    user.save()
+                    return redirect('update_field')
+    else:
+        return render(request, 'teacherdata.html')
+
+def student_field(request):
+    studentall=SubjectDetails.objects.all().values()
+    context={
+        "students":studentall
+    }
+    if studentall!=[]:
+       return render(request,"studentdata.html",context=context)
+    else:
+        context={
+            "error_message":"no student available"
+        }
+        return render(request,"studentdata.html",context=context)
+    
