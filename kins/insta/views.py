@@ -67,7 +67,7 @@ def signup(request):
         return render(request, 'signup.html')
 
 def update_field(request):
-    Teachers_all = User.objects.all().values()
+    Teachers_all = User.objects.filter(role="teacher")
     context = {
         "teachers": Teachers_all
     }
@@ -82,18 +82,21 @@ def update_field(request):
 
 def update_teacher(request):
     if request.method == 'POST':
-        id = request.POST.get('id')
-        if "update" in request.POST:
+        if "update1" in request.POST:
+            id = request.POST.get('id')
             username = request.POST.get('username')
             subject = request.POST.get('subject')
-            email=request.POST.get('email')
+            email = request.POST.get('email')
+            department=request.POST.get('dept')
             user = User.objects.get(id=id)
             user.username = username
             user.subject = subject
-            user.email=email
+            user.email = email
+            user.dept=department
             user.save()
             return redirect('update_field')
         elif "delete" in request.POST:
+            id = request.POST.get('id')
             user = User.objects.get(id=id)
             user.delete()
             return redirect('update_field')
@@ -101,19 +104,18 @@ def update_teacher(request):
             name = request.POST.get('name')
             subject = request.POST.get('subject')
             email = request.POST.get('email')
+            dept = request.POST.get('dept') 
             if User.objects.filter(email=email).exists():
                 return redirect('update_field')
             else:
-                user, created = User.objects.get_or_create(username=name, email=email, subject=subject)
-                print(user)
-                if created:
-                    user.save()
-                    return redirect('update_field')
+                User.objects.get_or_create(username=name, email=email, subject=subject, dept=dept, role='teacher')
+                return redirect('update_field')
     else:
         return render(request, 'teacherdata.html')
 
 def student_field(request):
-    studentall=SubjectDetails.objects.all().values()
+    studentall=User.objects.filter(role="student")
+
     context={
         "students":studentall
     }
@@ -124,4 +126,64 @@ def student_field(request):
             "error_message":"no student available"
         }
         return render(request,"studentdata.html",context=context)
-    
+
+def update_student(request):
+    if request.method == 'POST':
+        
+        if "update" in request.POST:
+            id = request.POST.get('id')
+            username = request.POST.get('username')
+            dept = request.POST.get('dept')
+            email = request.POST.get('email')
+            student = User.objects.get(id=id)
+            student.username = username
+            student.email = email
+            student.dept = dept
+            student.save()
+            
+            return redirect('update_student_field')
+        elif "delete" in request.POST:
+            id = request.POST.get('student_id')
+            print(id)
+            student = User.objects.get(id=id).delete()
+           
+            return redirect('update_student_field')
+        if "add" in request.POST:
+            name = request.POST.get('username')
+            dept = request.POST.get('dept')
+            email = request.POST.get('email')
+            if User.objects.filter(email=email).exists():
+                return redirect('update_student_field')
+            else:
+                student, created = User.objects.get_or_create(username=name,dept=dept,email=email)
+                                                                   
+                if created:
+                    student.save()
+                    return redirect('update_student_field')
+    else:
+        return render(request, 'studentdata.html')
+
+
+def subject_field(request):
+    subject_all = User.objects.filter(role="teacher")
+    context = {
+        "subjects": subject_all
+    }
+    if subject_all != []:
+        return render(request, 'subjectdata.html', context=context)
+    else:
+        return render(request, 'subjectdata.html')   
+
+
+
+def teacher_timetable(request):
+
+    teachers = User.objects.filter(role='teacher')  
+
+    context = {
+        'teachers': teachers
+    }
+
+    return render(request, 'timetable.html', context)
+
+

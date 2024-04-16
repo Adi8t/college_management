@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% if user.role == "principle" %}Principal{% elif user.role == "teacher" %}Teacher{% else %}Student{% endif %} Dashboard</title>
+    <title>{% if user.role == "principal" %}Principal{% elif user.role == "teacher" %}Teacher{% else %}Student{% endif %} Dashboard</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -63,7 +63,7 @@
     </style>
 </head>
 <body>
-    <h1>{% if user.role == "principle" %}Principal{% elif user.role == "teacher" %}Teacher{% else %}Student{% endif %} Dashboard</h1>
+    <h1>{% if user.role == "principal" %}Principal{% elif user.role == "teacher" %}Teacher{% else %}Student{% endif %} Dashboard</h1>
 
     {% if user.role == "principal" %}
     
@@ -79,13 +79,37 @@
             <button type="submit" class="button">Students</button>
         </form>
     </div>
+    <div class="dashboard-section">
+        <h2>Subject Data</h2>
+         <form action="{% url 'update_subject' %}" method="GET">
+            <button type="submit" class="button">Subjects</button>
+        </form>
+    </div>
+    <div class="dashboard-section">
+        <h2>teachertimetable</h2>
+         <form action="{% url 'timetable' %}" method="GET">
+            <button type="submit" class="button">timetable</button>
+        </form>
+    </div>
     {% endif %}
 
     {% if user.role == "teacher" %}
     <div class="dashboard-section">
+        <h2>Student Data</h2>
+        <form action="{% url 'update_student_field' %}" method="GET">
+            <button type="submit" class="button">Students</button>
+        </form>
+    </div>
+    <div class="dashboard-section">
         <h2>Subject Data</h2>
-         <form action="" method="GET">
+         <form action="{% url 'update_subject' %}" method="GET">
             <button type="submit" class="button">Subjects</button>
+        </form>
+    </div>
+    <div class="dashboard-section">
+        <h2>teachertimetable</h2>
+         <form action="{% url 'timetable' %}" method="GET">
+            <button type="submit" class="button">timetable</button>
         </form>
     </div>
     {% endif %}
@@ -93,7 +117,7 @@
     {% if user.role == "student" %}
     <div class="dashboard-section">
         <h2> My Profile </h2>
-        <form action="" method="GET">
+        <form action="{% url 'update_student_field' %}" method="GET">
             <button type="submit" class="button">My Profile</button>
         </form>
     </div>
@@ -107,3 +131,77 @@
     </div>
 </body>
 </html>
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Teacher Timetable</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            padding: 20px;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        h1 {
+            text-align: center; /* Center align the h1 header */
+        }
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <a href="{% url 'dashboard' %}" class="back-btn">Back to Principal Dashboard</a>
+    <div class="container">
+        <h1>Teacher Timetable</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Teacher</th>
+                    <th>Day</th>
+                    <th>Subject</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in teachers %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.day }}</td>
+                    <td>{{ user.subject }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html> -->

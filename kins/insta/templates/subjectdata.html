@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Subjects Data</title>
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;600;700;800;900&display=swap"
+          rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <style>
+        /* CSS class for table styling */
+        .subject-table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .subject-table th,
+        .subject-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .subject-table th {
+            background-color: #f2f2f2;
+        }
+
+        .add-subject-btn {
+            margin-bottom: 20px;
+        }
+
+        .back-button-container {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <div class="back-button-container">
+                    <!-- Back button -->
+                    <button type="button" class="btn btn-primary back-button" onclick="window.location.href='{% url 'dashboard' %}'">
+                        Back to Teacher Dashboard
+                    </button>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+<h2>All Subjects Data</h2>
+<table class="subject-table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>SUBJECTNAME</th>
+        <th>teacher</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if subjects %}
+        {% for subject in subjects %}
+        <tr>
+            <td>{{ subject.id }}</td>
+            <td>{{ subject.subject }}</td>
+            <td>{{ subject.username}}</td>
+
+
+        </tr>
+        {% endfor %}
+    {% endif %}
+    </tbody>
+</table>
+{% if not subjects %}
+<!-- No subjects available message -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 text-center mt-4">
+            No Subjects available
+        </div>
+    </div>
+</div>
+{% endif %}
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"  integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var successMessage = document.getElementById('successMessage');
+
+        if (successMessage) {
+            setTimeout(function() {
+                successMessage.style.display = 'none';
+            }, 1000);
+        }
+    });
+</script>
+</body>
+</html>
