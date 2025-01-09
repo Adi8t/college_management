@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/ed8ddc77-2ef3-4049-a196-be73e797e05b)
+![image](https://github.com/user-attachments/assets/074265be-a0af-4141-8bb1-2dac01824e29)
 
 ![image](https://github.com/user-attachments/assets/146f5043-70ec-4524-b929-51b924758e4d)
 # college_management
