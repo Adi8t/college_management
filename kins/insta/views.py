@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect
 from .models import *
 from django.contrib.auth import login, logout
 from django.contrib.auth import authenticate, login 
-
+from django.shortcuts import render, redirect
+from .models import User
 
 
 def home(request):
@@ -13,11 +14,9 @@ def home(request):
 def user_login(request):
     if request.method == "POST":
         email = request.POST.get('email')
-        print(email)
         password = request.POST.get('password')
-        print(password)
         user = authenticate(request, email=email, password=password)
-        print(user)
+
         if user is not None:
             login(request, user)
             return redirect("dashboard")
@@ -54,7 +53,7 @@ def signup(request):
             
             user, created = User.objects.get_or_create(email=email, username=name, date_of_birth=date_of_birth)
             if created:
-                user.set_password(password)  
+                 
                 user.save()
                 login(request,user)
                 return redirect('home')
@@ -65,6 +64,8 @@ def signup(request):
             return render(request, 'signup.html', context=context)
     else:
         return render(request, 'signup.html')
+
+
 
 def update_field(request):
     Teachers_all = User.objects.filter(role="teacher")
@@ -113,6 +114,8 @@ def update_teacher(request):
     else:
         return render(request, 'teacherdata.html')
 
+  
+
 def student_field(request):
     studentall=User.objects.filter(role="student")
 
@@ -126,6 +129,7 @@ def student_field(request):
             "error_message":"no student available"
         }
         return render(request,"studentdata.html",context=context)
+
 
 def update_student(request):
     if request.method == 'POST':

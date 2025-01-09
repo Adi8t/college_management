@@ -4,259 +4,241 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Teachers Data</title>
-    <!-- Latest compiled and minified CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous"/>
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;600;700;800;900&display=swap"
-          rel="stylesheet"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <style>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous"/>
 
-        .teacher-table {
-            border-collapse: collapse;
-            width: 100%;
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #6c5ce7, #00b894); /* Gradient background */
+            color: #fff; /* Text color to make it visible on gradient */
+            margin: 0;
+            padding: 0;
         }
 
-        .teacher-table th,
-        .teacher-table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
+        .container {
+            margin-top: 30px; /* Added margin for better spacing */
+            background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+            padding: 30px; /* Increased padding for better spacing */
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(255, 252, 252, 0.1);
+        }
+
+        h2 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px; /* Added margin-bottom */
+        }
+
+        .teacher-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(209, 212, 216, 0.1);
+            border-radius: 10px;
+            margin-top: 20px; /* Added margin-top */
         }
 
         .teacher-table th {
-            background-color: #f2f2f2;
+            background-color: #6c5ce7; /* Matching gradient theme */
+            color: #fff;
+            padding: 10px; /* Added padding */
         }
 
-        .update-button {
-            background-color: transparent;
+        .teacher-table td {
+            background-color: #131010;
+            padding: 10px; /* Added padding */
+        }
+
+        .teacher-table td button {
+            border-radius: 50%;
             border: none;
+            padding: 8px 12px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
-        .update-button img {
-            width: 24px;
-            height: 24px;
+        .teacher-table td button:hover {
+            background-color: #ddd;
+        }
+
+        .add-teacher-btn, .back-button {
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .back-button {
+            margin-left: 10px;
+            background-color: #00b894; 
+            color: #fff;
+        }
+
+        .back-button:hover {
+            background-color: #019063;
         }
 
         .add-teacher-btn {
-            margin-bottom: 20px;
+            background-color: #6c5ce7; 
+            color: #fff;
         }
 
-        .back-button-container {
-            margin-bottom: 20px;
+        .add-teacher-btn:hover {
+            background-color: #5b4db0;
+        }
+
+        .modal-header {
+            background-color: #6c5ce7;
+        }
+
+        .modal-dialog {
+            margin-top: 50px; 
+        }
+
+        .modal-body input {
+            margin-bottom: 15px; 
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="d-flex justify-content-between align-items-center mt-3">
-                    <div class="back-button-container">
- <!-- Back button -->                       
-                        <button type="button" class="btn btn-primary back-button" onclick="window.location.href='{% url 'dashboard' %}'">
-                            Back to Principal Dashboard
-                        </button>
-                    </div>
-                    <button type="button" class="btn btn-primary add-teacher-btn" data-bs-toggle="modal" data-bs-target="#addTeacherModal">
-                        Add Teacher
-                    </button>
-                </div>
-                <!--add teacher modal-->
-                <div class="modal fade" id="addTeacherModal" tabindex="-1" aria-labelledby="addTeacherModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <form action="update-teacher1/" method="post"> {% csrf_token %}
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="addTeacherModalLabel"> Add Teacher </h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="">
-                                        <label for="name">Teacher Name</label>
-                                        <input type="text" name="name" class="form-control" id="name"
-                                               value="" required></input>
-                                    </div>
-                                    <br>
-                                    <div class="">
-                                        <label for="email">Email</label>
-                                        <input type="email" name="email" class="form-control" id="email"
-                                               value="" required></input>
-                                    </div>
-                                    <br>
-                                    <div class="">
-                                        <label for="subject">Name of Subjects</label>
-                                        <input type="text" name="subject" class="form-control" id="subject"
-                                               value="" required></input>
-                                    </div>
-                                    <div class="">
-                                        <label for="course">department</label>
-                                        <input type="text" name="dept" class="form-control" id="dept"
-                                               value="" required></input>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Close</button>
-                                    <button type="submit" class="btn btn-primary" name="add">Add Teacher</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+    <div class="d-flex justify-content-between mb-3">
+        <button type="button" class="btn btn-outline-primary back-button" onclick="window.location.href='{% url 'dashboard' %}'">
+            <i class="fa fa-arrow-left"></i> Back to Dashboard
+        </button>
+        <button type="button" class="btn btn-primary add-teacher-btn" data-bs-toggle="modal" data-bs-target="#addTeacherModal">
+            <i class="fa fa-user-plus"></i> Add Teacher
+        </button>
     </div>
-</div>
 
-<h2>All Teachers Data</h2>
-<table class="teacher-table">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Subject</th>
-        <th>Department</th>
-        <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% if teachers %}
-        {% for teacher in teachers %}
-        <tr>
-            <td>{{ teacher.id }}</td>
-            <td>{{ teacher.username }}</td>
-            <td>{{ teacher.email }}</td>
-            <td>{{ teacher.subject }}</td>
-            <td>{{ teacher.dept }}</td>
-            <td>
-                <a href="" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#updateStudentModal_{{teacher.id}}">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                </a>
-                <a href="" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteStudentModal_{{teacher.id}}">
-                    <i class="fa-solid fa-delete-left"></i>
-                </a>
-                <!--update teacher modal-->
-                <div class="modal fade" id="updateStudentModal_{{teacher.id}}" tabindex="-1"
-                     aria-labelledby="updateStudentModalLabel_{{teacher.id}}" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <form action="update-teacher1/" method="post"> {% csrf_token %}
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="updateStudentModalLabel_{{teacher.id}}"> Update
-                                        Student </h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <input type="hidden" name="id" value="{{teacher.id}}">
-                                    <div class="">
-                                        <label for="teacher_id">Teacher ID</label>
-                                        <input type="text" name="id" class="form-control" id="id"
-                                               value="{{teacher.id}}" readonly></input>
-                                    </div>
-                                    <br>
-                                    <div class="">
-                                        <label for="teacher_name">Teacher Name</label>
-                                        <input type="text" name="username" class="form-control" id="username"
-                                               value="{{teacher.username}}" required></input>
-                                    </div>
-                                    <br>
-                                    <div class="">
-                                        <label for="teacher_email">Teacher Email</label>
-                                        <input type="email" name="email" class="form-control" id="email"
-                                               value="{{teacher.email}}" required></input>
-                                    </div>
-                                    <br>
-                                    <div class="">
-                                        <label for="name_of_subject">Name of Subjects</label>
-                                        <input type="text" name="subject" class="form-control" id="subject"
-                                               value="{{teacher.subject}}" required></input>
-                                    </div>
-                                    <div class="">
-                                        <label for="course">department</label>
-                                        <input type="text" name="dept" class="form-control" id="dept"
-                                               value="" required></input>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Close</button>
-                                    <a href="{% url 'update_teacher1' %}">
-                                        <button type="submit" class="btn btn-primary" name="update1">Update Teacher</button>
-                                        
-                                    </a>
-                                    
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <!--delete teacher modal-->
-                <div class="modal fade" id="deleteStudentModal_{{teacher.id}}" tabindex="-1" aria-labelledby="deleteStudentModalLabel{{teacher.id}}" aria-hidden="true">
-              <div class="modal-dialog">
-                <form action="update-teacher1/" method="post">
-                  {% csrf_token %}
-                  <input type="hidden" name="id" value="{{teacher.id}}">
-                  <div class="modal-content">
+    <!-- Add Teacher Modal -->
+    <div class="modal fade" id="addTeacherModal" tabindex="-1" aria-labelledby="addTeacherModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form action="update-teacher1/" method="post"> {% csrf_token %}
+                <div class="modal-content">
                     <div class="modal-header">
-                      <h1 class="modal-title fs-5" id="deleteStudentModalLabel{{teacher.id}}">
-                        Delete Teacher
-                      </h1>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h1 class="modal-title fs-5" id="addTeacherModalLabel">Add Teacher</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                      <p>Are you sure you want to delete?</p>
+                        <label for="name">Teacher Name</label>
+                        <input type="text" name="name" id="name" required>
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" required>
+                        <label for="subject">Subject</label>
+                        <input type="text" name="subject" id="subject" required>
+                        <label for="dept">Department</label>
+                        <input type="text" name="dept" id="dept" required>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <a href="{% url 'update_teacher1' %}">
-                            <button type="submit" class="btn btn-danger" name="delete">Delete Teacher</button>
-                        </a>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" name="add">Add Teacher</button>
                     </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-            </td>
-        </tr>
-        {% endfor %}
-    {% endif %}
-    </tbody>
-</table>
-{% if not teachers %}
-<!-- No teachers available message -->
-<div class="container">
-    <div class="row">
-        <div class="col-md-12 text-center mt-4">
-            No Teachers available
+                </div>
+            </form>
         </div>
     </div>
-</div>
-{% endif %}
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"  integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-<script>
-    // Wait for the page to fully load
-    document.addEventListener('DOMContentLoaded', function() {
-        // Find the success message element
-        var successMessage = document.getElementById('successMessage');
 
-        // Check if the success message element exists
-        if (successMessage) {
-            // Hide the success message after 2 seconds
-            setTimeout(function() {
-                successMessage.style.display = 'none';
-            }, 2000);
-        }
-    });
-</script>
+    <h2>All Teachers Data</h2>
+
+    <!-- Teacher Data Table -->
+    <table class="teacher-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Subject</th>
+                <th>Department</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if teachers %}
+                {% for teacher in teachers %}
+                <tr>
+                    <td>{{ teacher.id }}</td>
+                    <td>{{ teacher.username }}</td>
+                    <td>{{ teacher.email }}</td>
+                    <td>{{ teacher.subject }}</td>
+                    <td>{{ teacher.dept }}</td>
+                    <td>
+                        <!-- Update Teacher Modal Trigger -->
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#updateTeacherModal_{{ teacher.id }}">
+                            <i class="fa fa-pencil-alt"></i>
+                        </button>
+                        <!-- Delete Teacher Modal Trigger -->
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteTeacherModal_{{ teacher.id }}">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+
+                <!-- Update Teacher Modal -->
+                <div class="modal fade" id="updateTeacherModal_{{ teacher.id }}" tabindex="-1" aria-labelledby="updateTeacherModalLabel_{{ teacher.id }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <form action="update-teacher1/" method="post"> {% csrf_token %}
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="updateTeacherModalLabel_{{ teacher.id }}">Update Teacher</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" name="id" value="{{ teacher.id }}">
+                                    <label for="username">Teacher Name</label>
+                                    <input type="text" name="username" id="username" value="{{ teacher.username }}" required>
+                                    <label for="email">Email</label>
+                                    <input type="email" name="email" id="email" value="{{ teacher.email }}" required>
+                                    <label for="subject">Subject</label>
+                                    <input type="text" name="subject" id="subject" value="{{ teacher.subject }}" required>
+                                    <label for="dept">Department</label>
+                                    <input type="text" name="dept" id="dept" value="{{ teacher.dept }}" required>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary" name="update1">Update Teacher</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Delete Teacher Modal -->
+                <div class="modal fade" id="deleteTeacherModal_{{ teacher.id }}" tabindex="-1" aria-labelledby="deleteTeacherModalLabel_{{ teacher.id }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <form action="update-teacher1/" method="post"> {% csrf_token %}
+                            <input type="hidden" name="id" value="{{ teacher.id }}">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="deleteTeacherModalLabel_{{ teacher.id }}">Delete Teacher</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are you sure you want to delete this teacher?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-danger" name="delete">Delete Teacher</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="6" class="text-center">No Teachers Available</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </body>
 </html>

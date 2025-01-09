@@ -50,7 +50,6 @@ class SubjectDetails(models.Model):
     subject_code = models.CharField(max_length=100)
     teacher = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='subjects_taught')
    
-    
 
     class Meta:
         db_table = 'subject_details'
